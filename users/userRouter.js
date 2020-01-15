@@ -100,7 +100,7 @@ async function validateUserId(req, res, next) {
 function validateUser(req, res, next) {
   // do your magic!
   const newUser = req.body;
-  if (newUser) {
+  if (Object.keys(newUser).length) {
     if (newUser.name) {
       next();
     } else {
@@ -114,7 +114,7 @@ function validateUser(req, res, next) {
 function validatePost(req, res, next) {
   // do your magic!
   const newPost = req.body;
-  if (newPost) {
+  if (Object.keys(newPost).length) {
     if (newPost.text) {
       next();
     } else {
