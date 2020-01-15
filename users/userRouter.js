@@ -2,7 +2,7 @@ const express = require("express");
 const { getById } = require("./userDb");
 const router = express.Router();
 
-router.post("/", (req, res) => {
+router.post("/", validateUser, (req, res) => {
   // do your magic!
 });
 
@@ -46,6 +46,16 @@ async function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   // do your magic!
+  const newUser = req.body;
+  if (newUser) {
+    if (newUser.name) {
+      next();
+    } else {
+      res.status(400).json({ message: "missing required name field" });
+    }
+  } else {
+    res.status(400).json({ message: "missing user data" });
+  }
 }
 
 function validatePost(req, res, next) {
