@@ -7,6 +7,7 @@ const {
   update,
   remove
 } = require("./userDb");
+const postDb = require("../posts/postDb");
 const router = express.Router();
 
 router.post("/", validateUser, (req, res) => {
@@ -23,6 +24,20 @@ router.post("/", validateUser, (req, res) => {
 
 router.post("/:id/posts", validateUserId, validatePost, (req, res) => {
   // do your magic!
+  const userId = req.user.id;
+  const newPost = req.body;
+
+  const postData = { ...newPost, user_id: userId };
+  postDb
+    .insert(postData)
+    .then(data => {
+      res.status(201).json(data);
+    })
+    .catch(error => {
+      res.status(500).json({
+        errorMessage: "The new post could not be added at this moment"
+      });
+    });
 });
 
 router.get("/", (req, res) => {
